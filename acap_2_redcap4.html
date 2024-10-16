@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACAP to REDCap Debriefing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Using standard font */
+            background-color: #EDEDED; /* HHC Light Gray */
+            color: #53565A; /* HHC Gray */
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #0098C3; /* HHC Blue */
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        #goButton {
+            background-color: #A40084; /* HHC Magenta */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #goButton:hover {
+            background-color: #6E9934; /* HHC Green */
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 12px;
+            color: #53565A; /* HHC Gray */
+        }
+    </style>
+</head>
+<body>
+    <h1>ACAP to REDCap Debriefing</h1>
+    <p>Please click the button below to go to the debriefing screen and record the data.</p>
+    
+    <button id="goButton" onclick="openRedcapLink()">Go to Debriefing</button>
+
+    <footer>
+        <p>Hartford HealthCare - CESI</p>
+    </footer>
+
+    <script>
+        function getQueryParam(param) {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function openRedcapLink() {
+            var urlInput = getQueryParam('urlInput');
+            if (urlInput) {
+                window.open(urlInput, '_blank');
+            } else {
+                alert('No URL found!');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
