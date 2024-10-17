@@ -1,99 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACAP to REDCap Debriefing</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: white;
-            color: #EDEDED;
-            margin: 0;
-            padding: 20px;
-            font-size: 16px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
             background-color: #EDEDED;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            color: #53565A;
             text-align: center;
+            padding: 50px;
         }
         h1 {
             color: #0098C3;
-            margin-bottom: 20px;
         }
-        p {
-            font-size: 18px;
-            color: #53565A;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        .copy-button {
-            background-color: #6E9934;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-        .copy-button:hover {
-            background-color: #A40084;
-        }
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            font-size: 16px;
+        #link-container {
+            margin-top: 20px;
+            padding: 10px;
             border: 2px solid #D2492A; /* HHC Orange */
-            border-radius: 6px;
-            color: #53565A;
-            background-color: white;
+            display: inline-block;
+            background-color: #FFF;
+        }
+        button {
+            background-color: #6E9934; /* HHC Green */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #A40084; /* HHC Magenta */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>ACAP to REDCap Debriefing</h1>
-        <p>Please copy the URL below and paste it into your browser to go to the debriefing screen and record the data:</p>
-        
-        <input type="text" id="urlInput" class="input-field" readonly>
-        
-        <button class="copy-button" onclick="copyToClipboard()">Copy URL</button>
+    <h1>ACAP to REDCap Debriefing</h1>
+    <p>Please click the button below to go to the debriefing screen and record the data.</p>
+
+    <div id="link-container">
+        <p id="display-url"></p>
+        <button id="open-url">Go to REDCap Debriefing</button>
     </div>
 
     <script>
-        // Function to safely retrieve URL parameters
-        function getParameterByName(name, url = window.location.href) {
-            name = name.replace(/[\[\]]/g, '\\$&');
-            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-            const results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
+        // Extract the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const url = urlParams.get('urlInput');
 
-        // Get the 'urlInput' parameter from the URL
-        const url = getParameterByName('urlInput');
-        const urlInput = document.getElementById('urlInput');
+        // Display the URL in the container
+        const displayUrl = document.getElementById('display-url');
+        const openUrlButton = document.getElementById('open-url');
 
-        // Check if the URL is valid and display it, otherwise show an error message
-        if (url && url !== "null" && url !== "undefined") {
-            urlInput.value = url;
+        if (url) {
+            displayUrl.textContent = decodeURIComponent(url);
+
+            // Button action to open the URL in a new tab
+            openUrlButton.addEventListener('click', function() {
+                window.open(decodeURIComponent(url), '_blank');
+            });
         } else {
-            urlInput.value = 'No valid URL provided.';
-        }
-
-        // Function to copy the URL to the clipboard
-        function copyToClipboard() {
-            urlInput.select();
-            document.execCommand('copy');
-            alert('URL copied! Please paste it into your browser.');
+            displayUrl.textContent = 'No URL provided';
+            openUrlButton.disabled = true; // Disable the button if no URL
         }
     </script>
 </body>
 </html>
+
