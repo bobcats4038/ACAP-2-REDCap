@@ -67,18 +67,28 @@
     </div>
 
     <script>
-        // Get the URL from the query parameter and display it in the input field
-        const params = new URLSearchParams(window.location.search);
-        const urlInput = document.getElementById('urlInput');
-        const url = params.get('urlInput');
-
-        if (url) {
-            urlInput.value = url;
-        } else {
-            urlInput.value = 'No URL provided.';
+        // Function to safely retrieve URL parameters
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        // Function to copy the URL to clipboard
+        // Get the 'urlInput' parameter from the URL
+        const url = getParameterByName('urlInput');
+        const urlInput = document.getElementById('urlInput');
+
+        // Check if the URL is valid and display it, otherwise show an error message
+        if (url && url !== "null" && url !== "undefined") {
+            urlInput.value = url;
+        } else {
+            urlInput.value = 'No valid URL provided.';
+        }
+
+        // Function to copy the URL to the clipboard
         function copyToClipboard() {
             urlInput.select();
             document.execCommand('copy');
