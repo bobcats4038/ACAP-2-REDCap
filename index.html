@@ -6,69 +6,91 @@
     <title>ACAP to REDCap Debriefing</title>
     <style>
         body {
-            font-family: Arial, sans-serif; /* Using standard font */
-            background-color: #EDEDED; /* HHC Light Gray */
-            color: #53565A; /* HHC Gray */
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #EDEDED;
+            margin: 0;
+            padding: 20px;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #EDEDED;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             text-align: center;
-            padding: 50px;
         }
-
         h1 {
-            color: #0098C3; /* HHC Blue */
+            color: #0098C3;
+            margin-bottom: 20px;
         }
-
         p {
             font-size: 18px;
+            color: #53565A;
+            line-height: 1.6;
             margin-bottom: 30px;
         }
-
-        #goButton {
-            background-color: #A40084; /* HHC Magenta */
+        .copy-button {
+            background-color: #6E9934;
             color: white;
+            padding: 12px 20px;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            border-radius: 6px;
             cursor: pointer;
-            border-radius: 5px;
+            font-size: 18px;
         }
-
-        #goButton:hover {
-            background-color: #6E9934; /* HHC Green */
+        .copy-button:hover {
+            background-color: #A40084;
         }
-
-        footer {
-            margin-top: 50px;
-            font-size: 12px;
-            color: #53565A; /* HHC Gray */
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 2px solid #0098C3;
+            border-radius: 6px;
+            color: #53565A;
+            background-color: white;
+        }
+        .logo {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>ACAP to REDCap Debriefing</h1>
-    <p>Please click the button below to go to the debriefing screen and record the data.</p>
-    
-    <button id="goButton" onclick="openRedcapLink()">Go to Debriefing</button>
-
-    <footer>
-        <p>Hartford HealthCare - CESI</p>
-    </footer>
+    <div class="container">
+        <!-- Optional: Add the Hartford Healthcare logo -->
+        <img src="https://example.com/hhc-logo.png" alt="Hartford Healthcare Logo" class="logo" width="150">
+        
+        <h1>ACAP to REDCap Debriefing</h1>
+        <p>Please copy the URL below and paste it into your browser to go to the debriefing screen and record the data:</p>
+        
+        <input type="text" id="urlInput" class="input-field" readonly>
+        
+        <button class="copy-button" onclick="copyToClipboard()">Copy URL</button>
+    </div>
 
     <script>
-        function getQueryParam(param) {
-            let urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
+        // Get the URL from the query parameter and display it in the input field
+        const params = new URLSearchParams(window.location.search);
+        const urlInput = document.getElementById('urlInput');
+        const url = params.get('urlInput');
+
+        if (url) {
+            urlInput.value = url;
+        } else {
+            urlInput.value = 'No URL provided.';
         }
 
-        function openRedcapLink() {
-            var urlInput = getQueryParam('urlInput');
-            if (urlInput) {
-                window.open(urlInput, '_blank');
-            } else {
-                alert('No URL found!');
-            }
+        // Function to copy the URL to clipboard
+        function copyToClipboard() {
+            urlInput.select();
+            document.execCommand('copy');
+            alert('URL copied! Please paste it into your browser.');
         }
     </script>
 </body>
 </html>
-
 
