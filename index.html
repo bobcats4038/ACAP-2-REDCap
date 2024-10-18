@@ -45,26 +45,32 @@
     </div>
 
     <script>
-        // Extract the URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const url = urlParams.get('urlInput');
+        // Function to get URL parameters for Internet Explorer compatibility
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(window.location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
-        // Display the URL in the container
+        // Get the 'urlInput' parameter from the query string
+        const url = getUrlParameter('urlInput');
+
+        // Display the URL and set up the button
         const displayUrl = document.getElementById('display-url');
         const openUrlButton = document.getElementById('open-url');
 
         if (url) {
-            displayUrl.textContent = decodeURIComponent(url);
+            displayUrl.textContent = url;
 
             // Button action to open the URL in a new tab
             openUrlButton.addEventListener('click', function() {
-                window.open(decodeURIComponent(url), '_blank');
+                window.open(url, '_blank');
             });
         } else {
             displayUrl.textContent = 'No URL provided';
-            openUrlButton.disabled = true; // Disable the button if no URL
+            openUrlButton.disabled = true; // Disable the button if no URL is found
         }
     </script>
 </body>
 </html>
-
