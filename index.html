@@ -7,20 +7,20 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #EDEDED;
-            color: #333333; /* Darker text for contrast */
+            background-color: #EDEDED; /* Light gray */
+            color: #53565A; /* Dark gray */
             text-align: center;
             padding: 50px;
         }
         h1 {
-            color: #A40084; /* HHC Magenta */
+            color: #0098C3; /* HHC Blue */
         }
         #link-container {
             margin-top: 20px;
             padding: 10px;
             border: 2px solid #0098C3; /* HHC Blue */
             display: inline-block;
-            background-color: #FFF;
+            background-color: #FFF; /* White */
         }
         button {
             background-color: #6E9934; /* HHC Green */
@@ -30,50 +30,35 @@
             font-size: 16px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #D2492A; /* HHC Orange */
-        }
     </style>
 </head>
 <body>
     <h1>ACAP to REDCap Debriefing</h1>
-    <p>Please click the button below to copy the URL to your clipboard.</p>
+    <p>Click the button to copy the URL to your clipboard.</p>
 
     <div id="link-container">
         <p id="display-url"></p>
-        <button id="copy-url">Copy URL to Clipboard</button>
+        <button id="copy-url">Copy URL</button>
     </div>
 
     <script>
-        // Simple URL parameter extraction for IE compatibility
-        function getUrlParameter(name) {
-            const regex = new RegExp('[?&]' + name + '=([^&#]*)');
-            const results = regex.exec(window.location.href);
-            return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : null;
-        }
+        // Extract the URL parameter
+        var urlParams = window.location.search;
+        var url = decodeURIComponent(urlParams.split('urlInput=')[1]);
 
-        // Get the 'urlInput' parameter from the URL
-        const url = getUrlParameter('urlInput');
-        const displayUrl = document.getElementById('display-url');
-        const copyUrlButton = document.getElementById('copy-url');
+        // Display the URL
+        document.getElementById('display-url').textContent = url || 'No URL provided';
 
-        if (url) {
-            displayUrl.textContent = url;
-
-            // Copy the URL to clipboard
-            copyUrlButton.addEventListener('click', function() {
-                const textarea = document.createElement('textarea');
-                textarea.value = url;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy'); // This will copy the selected text
-                document.body.removeChild(textarea);
-                alert('URL copied to clipboard!'); // Optional feedback to the user
-            });
-        } else {
-            displayUrl.textContent = 'No URL provided';
-            copyUrlButton.disabled = true; // Disable the button if no URL is found
-        }
+        // Copy the URL to clipboard
+        document.getElementById('copy-url').onclick = function() {
+            var textarea = document.createElement('textarea');
+            textarea.value = url;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy'); // Copy the selected text
+            document.body.removeChild(textarea);
+            alert('URL copied to clipboard!');
+        };
     </script>
 </body>
 </html>
