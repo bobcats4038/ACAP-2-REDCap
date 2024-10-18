@@ -13,17 +13,17 @@
             padding: 50px;
         }
         h1 {
-            color: #D2492A; /* Changed to HHC Orange */
+            color: #D2492A; /* HHC Orange */
         }
         #link-container {
             margin-top: 20px;
             padding: 10px;
-            border: 2px solid #D2492A; /* HHC Orange */
+            border: 2px solid #0098C3; /* HHC Blue */
             display: inline-block;
             background-color: #FFF;
         }
         button {
-            background-color: #A40084; /* Changed to HHC Magenta */
+            background-color: #A40084; /* HHC Magenta */
             color: white;
             padding: 10px 20px;
             border: none;
@@ -31,7 +31,7 @@
             cursor: pointer;
         }
         button:hover {
-            background-color: #6E9934; /* Changed hover to HHC Green */
+            background-color: #6E9934; /* HHC Green */
         }
     </style>
 </head>
@@ -45,7 +45,7 @@
     </div>
 
     <script>
-        // Function to get URL parameters for Internet Explorer compatibility
+        // Fallback method to get URL parameters for Internet Explorer compatibility
         function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
             const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -63,9 +63,9 @@
         if (url) {
             displayUrl.textContent = url;
 
-            // Button action to open the URL in a new tab
+            // Button action to open the URL in a pop-up window (compatibility fallback)
             openUrlButton.addEventListener('click', function() {
-                window.open(url, '_blank');
+                window.open(url, '_blank', 'width=800,height=600');
             });
         } else {
             displayUrl.textContent = 'No URL provided';
