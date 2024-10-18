@@ -8,12 +8,12 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #EDEDED;
-            color: #53565A;
+            color: #333333; /* Darker text for contrast */
             text-align: center;
             padding: 50px;
         }
         h1 {
-            color: #D2492A; /* HHC Orange */
+            color: #A40084; /* HHC Magenta */
         }
         #link-container {
             margin-top: 20px;
@@ -23,7 +23,7 @@
             background-color: #FFF;
         }
         button {
-            background-color: #A40084; /* HHC Magenta */
+            background-color: #6E9934; /* HHC Green */
             color: white;
             padding: 10px 20px;
             border: none;
@@ -31,17 +31,17 @@
             cursor: pointer;
         }
         button:hover {
-            background-color: #6E9934; /* HHC Green */
+            background-color: #D2492A; /* HHC Orange */
         }
     </style>
 </head>
 <body>
     <h1>ACAP to REDCap Debriefing</h1>
-    <p>Please click the button below to go to the debriefing screen and record the data.</p>
+    <p>Please click the button below to copy the URL to your clipboard.</p>
 
     <div id="link-container">
         <p id="display-url"></p>
-        <button id="open-url">Go to REDCap Debriefing</button>
+        <button id="copy-url">Copy URL to Clipboard</button>
     </div>
 
     <script>
@@ -55,18 +55,24 @@
         // Get the 'urlInput' parameter from the URL
         const url = getUrlParameter('urlInput');
         const displayUrl = document.getElementById('display-url');
-        const openUrlButton = document.getElementById('open-url');
+        const copyUrlButton = document.getElementById('copy-url');
 
         if (url) {
             displayUrl.textContent = url;
 
-            // Change the URL in the current window
-            openUrlButton.addEventListener('click', function() {
-                window.location.href = url; // This will navigate to the URL directly
+            // Copy the URL to clipboard
+            copyUrlButton.addEventListener('click', function() {
+                const textarea = document.createElement('textarea');
+                textarea.value = url;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy'); // This will copy the selected text
+                document.body.removeChild(textarea);
+                alert('URL copied to clipboard!'); // Optional feedback to the user
             });
         } else {
             displayUrl.textContent = 'No URL provided';
-            openUrlButton.disabled = true; // Disable the button if no URL is found
+            copyUrlButton.disabled = true; // Disable the button if no URL is found
         }
     </script>
 </body>
