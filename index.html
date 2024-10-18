@@ -45,27 +45,24 @@
     </div>
 
     <script>
-        // Fallback method to get URL parameters for Internet Explorer compatibility
+        // Simple URL parameter extraction for IE compatibility
         function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            const results = regex.exec(window.location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            const regex = new RegExp('[?&]' + name + '=([^&#]*)');
+            const results = regex.exec(window.location.href);
+            return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : null;
         }
 
-        // Get the 'urlInput' parameter from the query string
+        // Get the 'urlInput' parameter from the URL
         const url = getUrlParameter('urlInput');
-
-        // Display the URL and set up the button
         const displayUrl = document.getElementById('display-url');
         const openUrlButton = document.getElementById('open-url');
 
         if (url) {
             displayUrl.textContent = url;
 
-            // Button action to open the URL in a pop-up window (compatibility fallback)
+            // Change the URL in the current window
             openUrlButton.addEventListener('click', function() {
-                window.open(url, '_blank', 'width=800,height=600');
+                window.location.href = url; // This will navigate to the URL directly
             });
         } else {
             displayUrl.textContent = 'No URL provided';
